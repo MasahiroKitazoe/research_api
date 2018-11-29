@@ -5,6 +5,8 @@ from selenium import webdriver
 import re
 import json
 
+from users.models import User
+
 BASE_URL = "https://www.dressinn.com"
 
 
@@ -64,7 +66,5 @@ def scrape_popular_items(url):
   return json.dumps(results, ensure_ascii=False)
 
 
-def scrape_diesel(request):
-  url = "https://www.dressinn.com/%E3%83%95%E3%82%A1%E3%83%83%E3%82%B7%E3%83%A7%E3%83%B3/diesel/303/mm"
-
-  return scrape_popular_items(url)
+def auth_user(user_id, password):
+  return User.is_registered(user_id, password)
