@@ -4,6 +4,7 @@ from bs4 import BeautifulSoup
 from selenium import webdriver
 import re
 import json
+from research_api.settings.base import BASE_DIR
 
 from users.models import User
 
@@ -17,7 +18,9 @@ def scrape_popular_items(url):
   # 割引後値段を抜き出すための正規表現パターンをコンパイル
   ptn = re.compile(r'¥ \d+ ¥ (\d{1,6})$')
 
-  driver = webdriver.Chrome('./chromedriver')
+  executable_path = BASE_DIR + '/dress_inn/chromedriver'
+
+  driver = webdriver.Chrome(executable_path=executable_path)
   driver.implicitly_wait(5)
   driver.get(url)
   soup = BeautifulSoup(driver.page_source, 'html.parser')
@@ -67,4 +70,8 @@ def scrape_popular_items(url):
 
 
 def auth_user(user_id, password):
-  return User.is_registered(user_id, password)
+  try:
+    user = User.objects.filter(user_id=user_id, password=password)
+    return True
+  except User.DoesNotExist:
+    raise ValueError("無効なユーザーです")

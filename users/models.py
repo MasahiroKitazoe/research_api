@@ -11,14 +11,3 @@ class User(models.Model):
         password=password
       )
 
-  @classmethod
-  def is_registered(cls, user_id, password):
-    try:
-      user = User.objects.filter(user_id=user_id).first()
-    except User.DoesNotExist:
-      return False
-
-    if user.password == password:
-      return True
-    else:
-      return False
