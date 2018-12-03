@@ -7,6 +7,7 @@ import json
 from .utils import scrape_popular_items, auth_user
 from users.forms import UserForm
 
+@csrf_exempt
 def scrape_diesel(request):
     # POSTメソッドだけでリクエストしてくる想定
     form = UserForm(request.POST)
